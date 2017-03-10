@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = 'bobgreen123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['bohdantodo.herokuapp.com']
 
 
 # Application definition
