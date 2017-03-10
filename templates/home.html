@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+<div class="row">
+    <div class="col-sm-6 ">col-sm-8
+        <div class="jumbotron">
+            <h2 align="center"> Today is: {{ today }} </h2>
+                <p> Task for today: </p>
+                    {% for todo in list_today %}
+                        <ul>
+                            <li>{{ todo.what_todo }}</li>
+                            <small> <span style="color: #003366"><strong>{{ todo.action_status }}</strong></span></small>
+                        </ul>
+                    {% endfor %}
+
+                <div class="pagination"  >
+                    <span class="step-links" >
+                        {% if list_today.has_previous %}
+                            <a href="?{{ page_request_var }}={{ contacts.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ list_today.number }} of {{ list_today.paginator.num_pages }}.
+                        </span>
+
+                        {% if list_today.has_next %}
+                            <a href="?{{ page_request_var }}={{ list_today.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+
+
+            {% if not list_today  %}
+                <h3>You have no tasks for today</h3>
+            {% endif %}
+            <hr>
+
+            <div class="container-fluid">
+                <div class="col-sm-6">
+                    <form method="get"  action="{% url 'todo:create_todo' %}">
+                        <button class=" btn btn-primary" ><i class="fa fa-check-square-o" aria-hidden="true"></i> Quick creation of task! </button>
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <form method="get"  action="{% url 'create_list' %}">
+                        <button class=" btn btn-primary" ><i class="fa fa-check-square-o" aria-hidden="true"></i> Quick creation of list! </button>
+                    </form>
+                </div>
+            </div>
+
+    </div>
+
+    <div class="col-sm-6 ">col-sm-4
+        <div class="jumbotron">
+            <h2 align="center">Lists of tasks</h2>
+                {% for l in lists %}
+                    <ul>
+                        <div class="btn-group btn-block">
+                              <button type="button" class="btn btn-block btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i> {{ l.name_list }} <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu col-lg-12" role="menu">
+                                    <li><a href="{{ l.get_absolute_url }}"><i class="fa fa-hand-o-right" aria-hidden="true"></i> More</a></li>
+                              </ul>
+                        </div>
+{#                        <hr/>#}
+                    </ul>
+                {% endfor %}
+        </div>
+    </div>
+
+</div>
+    {% else %}
+
+        <div class="container">
+            <div class="jumbotron">
+                <h3 class="glyphicon glyphicon-play-circle">  Please, create your account :) It's so easy <span class="glyphicon glyphicon-ok-circle"></span></h3>
+                <p>
+                    Thank you very much for visiting my project! Here you can
+                    create some tasks that you have to do in some certain day.
+                    You can create separated tasks and tasks in list, I call it todo-list :)
+                </p>
+                <p>
+                    For using this web-project you have to create you own account.
+                    You can do it in few clicks if you have account in Facebook or Google+
+                </p>
+                <p>
+                    I created this small cute site with Python, Django, Bootstrap and jQuery.
+                    There is my first large experience with Django.
+                    Please, don't judge me strictly.
+                </p>
+                <p>
+                    If you have any questions you can write to my emali: kokovych@gmail.com
+                    , my <a href="https://twitter.com/bohdankokovych">twitter</a> or my
+                    <a href="https://facebook.com/kokovych">facebook</a>. Thank you for your attention :)
+                </p>
+            </div>
+        </div>
+    {% endif %}
+{%  endblock content %}

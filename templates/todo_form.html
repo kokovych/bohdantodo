@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block extra_head %}
+
+{% endblock %}
+
+{#{{ form.media }}#}
+
+{#{% for message in messages %}#}
+{#    <div >{{ message }}</div>#}
+{#{% endfor %}#}
+
+{% block content %}
+
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="jumbotron">
+            <h2>Form</h2>
+            <form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn-success" value="Submit"  />
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

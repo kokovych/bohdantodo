@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1> My todo</h1>
+
+        {%for l in lists %}
+            <h2>{{ l.name_list}}</h2>
+            {% for item in all_todos %}
+                {% if item.action_list_id == l.id %}
+                    <ul>
+                        <li>{{ item.what_todo }}</li>
+                        <li>{{ item.user }}</li>
+                        {# <h4>{{ item.action_list}}</h4> #}
+                        <small>{{ item.timestamp| timesince }} ago <span style="color: #003366"><strong>{{ item.action_status }}</strong></span></small>
+                    </ul>
+                {% endif %}
+
+            {% endfor %}
+        {% endfor %}
+
+        <h2>Without TODOlist:</h2>
+        {% for todo in without_list %}
+                    <ul>
+                        <li>{{ todo.what_todo }}</li>
+                        <small>{{ todo.timestamp| timesince }} ago <span style="color: #003366"><strong>{{ todo.action_status }}</strong></span></small>
+                    </ul>
+        {% endfor %}
+    <hr>
+
+
+    </div>
+{% endblock content %}

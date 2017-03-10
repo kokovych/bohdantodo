@@ -1,0 +1,112 @@
+{% load staticfiles %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+
+<nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-collapse" href="{% url 'home' %}"><img src="{% static 'img/check.png' %} " width="60" height="60"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Just do it! <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'todo:create_todo' %}">Create task</a></li>
+                <li><a href="{% url 'create_list' %}">Create list</a></li>
+{#                <li><a href="#">Something else here</a></li>#}
+{#                <li role="separator" class="divider"></li>#}
+{#                <li class="dropdown-header">Nav header</li>#}
+{#                <li><a href="#">Separated link</a></li>#}
+{#                <li><a href="#">One more separated link</a></li>#}
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              {% if request.user.is_authenticated %}
+{#                  {{user.socialaccount_set.all.0.get_avatar_url}}#}
+                  {% if user.socialaccount_set.all.0.get_profile_url %}
+                      <li><a class="navbar-collapse" href="{{user.socialaccount_set.all.0.get_profile_url}}"><img src=" {{user.socialaccount_set.all.0.get_avatar_url}} " width="30" height="30"></a></li>
+                  {% endif %}
+                  <li><a href="{{user.socialaccount_set.all.0.get_profile_url}}">{{user.socialaccount_set.all.0.get_provider_account}}</a></li>
+                  <li> <a href="{% url 'logout' %}"> Logout</a></li>
+                  {% else %}
+{#                  <li><a href="{% url 'auth_login' %}">Login</a> </li>#}
+                  <li><a href="{% url 'account_signup' %}"> Registration </a></li>
+{#                  allauth.account:signup#}
+{#            <li><a href="../navbar/">Default</a></li>#}
+{#            <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>#}
+{#            <li><a href="../navbar-fixed-top/">Fixed top</a></li>#}
+              {% endif %}
+
+          {% if not request.user.is_authenticated %}
+{#              <form class="navbar-form navbar-right" method="post" action="{% url 'login' %}"> {% csrf_token %}#}
+{#                  <div class="form-group">#}
+{#                      <input type="text" class="form-control" name="username" placeholder="Username"/>#}
+{#                  </div>#}
+{#                  <div class="form-group">#}
+{#                      <input type="password" class="form-control" name="password" placeholder="Password"/>#}
+{#                  </div>#}
+{#              <button type="submit" class="btn btn-success">Login</button>#}
+{#              </form>#}
+
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log in <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+{#                <li>#}
+                    <form class="navbar-form navbar-left" method="POST" action="{% url 'login' %}"> {% csrf_token %}
+                      <div class="form-group">
+                          <input type="text" class="form-control" name="username" placeholder="Username"/>
+                      </div>
+                      <div class="form-group">
+                          <input type="password" class="form-control" name="password" placeholder="Password"/>
+                      </div>
+                    <button type="submit" class="btn btn-success">Login</button>
+                  </form>
+{#                </li>#}
+{#                  <a href="#">Another action</a>#}
+                <li><a href="{% url 'account_signup' %}"> Registration </a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Or log in with</li>
+                <li>
+                    {% for provider in socialaccount_providers %}
+{% if provider.id == "openid" %}
+{% for brand in provider.get_brands %}
+<li>
+  <a title="{{brand.name}}"
+     class="socialaccount_provider {{provider.id}} {{brand.id}}"
+     href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+     >{{brand.name}}</a>
+</li>
+{% endfor %}
+{% endif %}
+<li>
+  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
+     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">{{provider.name}}
+
+  </a>
+</li>
+{% endfor %}
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!--<meta charset="UTF-8">-->
+    <title>{% block title %}TODO list | {% endblock title %}</title>
+
+{% include 'head_css.html' %}
+
+</head>
+<body>
+<div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en/sdk.js#xfbml=1&version=v2.8&appId=1854187564864361";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<header>
+    {% include 'navbar.html' %}
+</header>
+
+<div class=" col-xs-offset-6">
+<div class="fb-share-button" data-href="https://bohdantodo.herokuapp.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+</div>
+    <div class=" col-xs-offset-9">
+        Today is {% now "jS F Y H:i" %}
+    </div>
+    <div class="container">
+        <div class="col-sm-6 col-sm-offset-3">
+            {% for message in messages %}
+                <div class="message">
+                    <div class="del-mes">
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+    <div class="container">
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">
+        <p > <span class="glyphicon glyphicon-copyright-mark"></span> Created by Bohdan Kokovych.
+            <span class=" glyphicon glyphicon-globe"></span>
+            Contact me in
+            <a  href="https://twitter.com/bohdankokovych"><i class="fa fa-lg fa-2x fa-twitter-square"></i> </a>
+            <a  href="https://facebook.com/kokovych"><i class="fa fa-lg fa-2x fa-facebook-square"></i> </a>
+            <a  href="https://plus.google.com/u/0/+BohdanKokovych"><i class="fa fa-lg fa-2x fa-google-plus-square"></i> </a>
+        </p>
+    </span>
+  </div>
+</footer>
+    {% include 'javascript.html' %}
+    <script>
+        $(document).ready(function() {
+            // messages timeout for 10 sec
+            setTimeout(function() {
+                $('.message').fadeOut('slow');
+            }, 10000); // <-- time in milliseconds, 1000 =  1 sec
+
+            // delete message
+            $('.del-mes').live('click',function(){
+                $('.del-msg').parent().attr('style', 'display:none;');
+            })
+        });
+    </script>
+
+{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>#}
+</body>
+</html>
