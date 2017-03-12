@@ -41,7 +41,6 @@ urlpatterns = [
     url(r'^contact/$', contact, name='contact'),
     url(r'^list/$', list_of_todo, name='list_of_todo'),
     url(r'^todo/', include("todo.urls", namespace='todo')),
-    # url(r'^list/$', list_of_todos),
     url(r'^register/$',register_user , name='register'),
     url(r'^login/$',authenticate_user , name='login'),
     url(r'^logout/$',logout_view , name='logout'),
@@ -50,9 +49,6 @@ urlpatterns = [
     url(r'^create_list/$', create_todo_list, name='create_list'),
     url(r'^edit_list/(?P<id>\d+)/$', update_todo_list, name='update_list'),
     url(r'^delete_list/(?P<id>\d+)/$', delete_todo_list, name='delete_list'),
-
-    # RegisterFormView.as_view()
-    # url(r'^list/(?P<action_list_id>\d+)/$', detail_todo_list),
 ]
 
 if settings.DEBUG:

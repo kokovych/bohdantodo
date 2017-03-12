@@ -5,9 +5,6 @@ from .views import (
     create_todo,
     todo_update,
     todo_delete,
-    create_todo_list,
-    update_todo_list,
-    delete_todo_list,detail_todo_list,
 )
 
 urlpatterns = [

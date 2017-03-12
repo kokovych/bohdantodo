@@ -26,8 +26,8 @@ SECRET_KEY = 'dajgtlc1$2xn74xj5gy#4s=d8z_zm_ajvq4lx*$aq)m_la5(f6'
 DEBUG = True
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bobgreenhelper@gmail.com'
-EMAIL_HOST_PASSWORD = 'bobgreen123'
+EMAIL_HOST_USER = '********@gmail.com' #enter your gmail account
+EMAIL_HOST_PASSWORD = '*****' # enter your gmail password here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

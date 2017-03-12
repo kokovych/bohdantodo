@@ -23,32 +23,10 @@ def contact(request):
 
 # ~~~~~~~~~~~~~~~~~~~~~~~ Action - to do ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# list of all tasks
-# def all_todo(request, *args, **kwargs):
-#     all_todo = Action.objects.all()
-#     lists = TodoList.objects.all()
-#     without_list = Action.objects.filter(action_list_id=None)
-#     today = date.today()
-#     list_today = Action.objects.filter(execution_date=today)
-#     context = {
-#         'all_todo': all_todo,
-#         'today': today,
-#         'list_today': list_today,
-#         'lists': lists,
-#         'without_list': without_list,
-#     }
-#     return render(request, "all_todo.html", context)
-
-
 # create one task
 def create_todo(request):
     current_user = request.user.id
-    # obj = Action.objects.filter(user_id=current_user)
-    # if not obj :
-    #     # if request.user.is_superuser:
-    #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     if not request.user.is_authenticated:
-        # raise Http404("Please, log in")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     form = TodoForm(request.POST or None, request.FILES or None)
     form.fields["action_list"].queryset = TodoList.objects.filter(user_id=current_user)
@@ -58,7 +36,6 @@ def create_todo(request):
         instance.save()
         messages.success(request, "Task was successfully created! ")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        #return HttpResponseRedirect("/")
     context = {
         "form": form,
     }
@@ -70,21 +47,16 @@ def todo_update(request, id=None):
     task = get_object_or_404(Action, id=id)
     current_user = request.user.id
     author = task.user_id
-    print "task"
-    print task
-    print type(task)
     if author != current_user:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     form = TodoForm(request.POST or None, request.FILES or None, instance=task)
     form.fields["action_list"].queryset = TodoList.objects.filter(user_id =current_user)
-    #edit_form.fields["asset"].queryset = Asset.objects.filter(location_id=location_id)
 
     if form.is_valid():
         task = form.save(commit=False)
         task.save()
         messages.info(request, "Task was successfully updated! ")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        #return HttpResponseRedirect("/")
     context = {
         "task": task,
         "form": form,
@@ -94,11 +66,6 @@ def todo_update(request, id=None):
 
 # delete task
 def todo_delete(request, id=None):
-    # current_user = request.user.id
-    # obj = Action.objects.filter(user_id=current_user)
-    # if not obj :
-    #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
     instance = get_object_or_404(Action, id=id)
     current_user = request.user.id
     author = instance.user_id
@@ -106,8 +73,8 @@ def todo_delete(request, id=None):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     instance.delete()
     messages.warning(request, "Task was successfully deleted! ")
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    #return HttpResponseRedirect("/")
+    #return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect("/")
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~ Action - LIST of to do ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,14 +95,9 @@ def list_of_todo(request):
 
 # detail view of one list+task
 def detail_todo_list(request, action_list_id = None):
-    # instance = get_object_or_404(Action, id=id)
     current_user = request.user.id
-    # author = instance.user_id
-
     all_fields = Action.objects.filter(action_list_id=action_list_id).filter(user_id=current_user)
     title = TodoList.objects.get(id=action_list_id)
-    print type(all_fields)
-    # #obj =
     context = {
         "title": title,
         "all_fields": all_fields,
@@ -146,7 +108,6 @@ def detail_todo_list(request, action_list_id = None):
 # create one task
 def create_todo_list(request):
     if not request.user.is_authenticated:
-        # raise Http404("Please, log in")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     form_create_list = TodoListForm(request.POST or None, request.FILES or None)
     if form_create_list.is_valid():
@@ -155,7 +116,6 @@ def create_todo_list(request):
         instance.save()
         messages.success(request, "Successfully created new list! ")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        #return HttpResponseRedirect("/")
     context = {
         "form": form_create_list,
     }
@@ -194,7 +154,6 @@ def delete_todo_list(request, id=None):
     instance.delete()
     messages.warning(request, "Successfully deleted list!")
     return HttpResponseRedirect("/")
-    #return HttpResponseRedirect("/")
 
 
 def register_user(request):
@@ -263,78 +222,3 @@ def home_page(request):
         'page_request_var': page_request_var,
     }
     return render(request, "home.html", context)
-
-    # username = request.POST[]
-    # password = request.POST[]
-    # user = authenticate(username=username, password=password)
-    # if user is not None:
-    #     login(request, user)
-    #     print user
-    #     messages.success(request, "  Successfully logined ")
-    #     return HttpResponseRedirect('/')
-    # # if form.is_valid():
-    # #     instance = form.save(commit=False)
-    # #     user = instance.username
-    # #     print  user
-    # #     messages.success(request, "  Successfully logined ")
-    # #     return HttpResponseRedirect('/')
-    # context = {
-    #     "form": form,
-    # }
-    # return render(request, 'login.html', context)
-
-# def register(request):
-#     form = RegisterFormView()
-#     # request.POST or None, request.FILES or None
-#     if form.form_valid(form):
-#         messages.success(request, " User Successfully create ")
-#         return HttpResponseRedirect("/")
-    # context = {
-    #     "form": form,
-    # }
-    # return render(request, 'todo_form.html', context)
-
-# def create_todo(request):
-#     form = TodoForm(request.POST or None, request.FILES or None)
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         # instance.user= request.user
-#         #instance.user = request.user
-#         # print form.cleaned_data.get("title")
-#         #instance.save()
-#         mess =messages.success(request, "this TODO was successfully created ")
-#         print "mess"
-#         print mess
-#         instance.save()
-#         return HttpResponseRedirect("/")
-#     # instance.get_absolute_url()
-#     # else:
-#     #     messages.error(request, " NOT Successfully created ")
-#
-#     # if request.method == "POST":
-#     #     print "title" + request.POST.get("title")
-#     #     print request.POST.get("content")
-#
-#     context = {
-#         "form": form,
-#     }
-#     return render(request,  'todo/todo_form.html', context)
-
-
-# def todo_update(request, id=None):
-#     instance = get_object_or_404(Action, id=id)
-#     form = TodoForm(request.POST or None, request.FILES or None, instance=instance)
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         # print form.cleaned_data.get("title")
-#         instance.save()
-#         messages.success(request, "<a href='#'>Successfully</a> saved ", extra_tags='html_safe')
-#         return HttpResponseRedirect("/")
-#     context = {
-#         "instance": instance,
-#         "form": form,
-#     }
-#     return render(request, 'todo/todo_form.html', context)
-
-
-
