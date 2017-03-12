@@ -4,7 +4,7 @@
 
     {% if user.is_authenticated %}
 <div class="row">
-    <div class="col-sm-6 ">col-sm-8
+    <div class="col-sm-6 ">
         <div class="jumbotron">
             <h2 align="center"> Today is: {{ today }} </h2>
                 <p> Task for today: </p>
@@ -53,7 +53,7 @@
 
     </div>
 
-    <div class="col-sm-6 ">col-sm-4
+    <div class="col-sm-6 ">
         <div class="jumbotron">
             <h2 align="center">Lists of tasks</h2>
                 {% for l in lists %}
