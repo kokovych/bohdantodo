@@ -40,3 +40,4 @@ Get start this project:
 ```
 ~ $ python manage.py runserver
 ```
+Example of this project in web [here](https://bohdantodo.herokuapp.com/)
